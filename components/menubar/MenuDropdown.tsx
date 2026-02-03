@@ -1,35 +1,33 @@
-"use client";
-
+import { Menu } from "@/types/Menu";
 import { useMenu } from "@/context/MenuContext";
-import { Menu } from "@/type/Menu";
+import { MenuActionHelpers } from "@/types/Helpers";
 
-type Props = {
+type DropdownProps = {
   menu: Menu;
 };
 
-export function MenuDropdown({ menu }: Props) {
-  const { openMenuId, close } = useMenu();
+export function Dropdown({ menu }: DropdownProps) {
+  const { openModal, closeActiveApp, setActiveApp } = useMenu();
 
-  if (openMenuId !== menu.title) return null;
+  const helpers: MenuActionHelpers = { openModal, closeActiveApp, setActiveApp };
 
   return (
-    <div className="absolute top-8 left-0 min-w-48 rounded-md bg-white shadow-lg dark:bg-black">
-      {menu.items.map((item, i) =>
-        item.type === "separator" ? (
-          <div key={i} className="my-1 h-px bg-black/10 dark:bg-white/10" />
-        ) : (
+    <div className="absolute top-full left-0 mt-1 w-56 bg-white/80 dark:bg-[#1E1E1E]/80 backdrop-blur-2xl border rounded-xl shadow z-50">
+      {menu.items.map((item) => {
+        if (item.type === "separator") {
+          return <hr key={item.id} className="my-1 border-gray-200 dark:border-gray-700" />;
+        }
+
+        return (
           <div
-            key={item.label}
-            onClick={() => {
-              item.action?.();
-              close();
-            }}
-            className="px-3 py-1.5 hover:bg-black/10 dark:hover:bg-white/10"
+            key={item.id}
+            className="px-4 py-2 hover:bg-[#007AFF] hover:text-white cursor-pointer rounded"
+            onClick={() => item.action?.(helpers)} // ✅ dynamic helpers
           >
             {item.label}
           </div>
-        )
-      )}
+        );
+      })}
     </div>
   );
 }

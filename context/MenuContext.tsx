@@ -1,38 +1,50 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
-import { AppleMenu } from "@/data/menus/apple.menu";
-import { FinderMenu } from "@/data/menus/finder.menu";
-import { AppMenu, Menu } from "@/type/Menu";
+import { FinderApp } from "@/data/apps/finder";
+import { App } from "@/types/App";
 
 type MenuContextType = {
-  appleMenu: Menu;
-  activeAppMenu: AppMenu;
-  setActiveAppMenu: (menu: AppMenu) => void;
-
-  openMenuId: string | null;
-  open: (id: string) => void;
-  close: () => void;
+  activeApp: App;
+  setActiveApp: (app: App) => void;
+  closeActiveApp: () => void;
+  openModal: (component: React.FC<any>, props?: any) => void;
 };
 
 const MenuContext = createContext<MenuContextType | null>(null);
 
 export function MenuProvider({ children }: { children: React.ReactNode }) {
-  const [activeAppMenu, setActiveAppMenu] = useState<AppMenu>(FinderMenu);
-  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [activeApp, setActiveApp] = useState(FinderApp);
+  const [modal, setModal] = useState<React.ReactNode | null>(null);
+
+  const openModal = (Component: React.FC<any>, props?: any) => {
+    setModal(<Component {...props} />);
+  };
+
+  const closeModal = () => setModal(null);
+
+  const closeActiveApp = () => {
+    setActiveApp(FinderApp);
+    closeModal(); // automatically close modal when app closes
+  };
+
+  const helpers = {
+    openModal,
+    closeActiveApp,
+    setActiveApp,
+  };
 
   return (
     <MenuContext.Provider
       value={{
-        appleMenu: AppleMenu,
-        activeAppMenu,
-        setActiveAppMenu,
-        openMenuId,
-        open: setOpenMenuId,
-        close: () => setOpenMenuId(null),
+        activeApp,
+        setActiveApp,
+        closeActiveApp,
+        openModal,
       }}
     >
       {children}
+      {modal && <div className="fixed inset-0 z-50">{modal}</div>}
     </MenuContext.Provider>
   );
 }
