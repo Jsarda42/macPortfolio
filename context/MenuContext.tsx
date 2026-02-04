@@ -1,34 +1,34 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useCallback } from "react";
 import { FinderApp } from "@/data/apps/finder";
 import { App } from "@/types/App";
+import { MenuActionHelpers } from "@/types/Helpers";
 
-type MenuContextType = {
+type MenuContextType = MenuActionHelpers & {
   activeApp: App;
-  setActiveApp: (app: App) => void;
-  closeActiveApp: () => void;
-  openModal: (component: React.FC<any>, props?: any) => void;
 };
 
 const MenuContext = createContext<MenuContextType | null>(null);
 
 export function MenuProvider({ children }: { children: React.ReactNode }) {
-  const [activeApp, setActiveApp] = useState(FinderApp);
-  const [modal, setModal] = useState<React.ReactNode | null>(null);
+  const [activeApp, setActiveApp] = useState<App>(FinderApp);
+  const [modal, setModal] = useState<{ Component: React.FC<any>; props: any } | null>(null);
 
-  const openModal = (Component: React.FC<any>, props?: any) => {
-    setModal(<Component {...props} />);
-  };
+  const openModal = useCallback((Component: React.FC<any>, props?: any) => {
+    setModal({ Component, props });
+  }, []);
 
-  const closeModal = () => setModal(null);
+  const closeModal = useCallback(() => {
+    setModal(null);
+  }, []);
 
-  const closeActiveApp = () => {
+  const closeActiveApp = useCallback(() => {
     setActiveApp(FinderApp);
-    closeModal(); // automatically close modal when app closes
-  };
+    closeModal();
+  }, [closeModal]);
 
-  const helpers = {
+  const helpers: MenuActionHelpers = {
     openModal,
     closeActiveApp,
     setActiveApp,
@@ -38,13 +38,17 @@ export function MenuProvider({ children }: { children: React.ReactNode }) {
     <MenuContext.Provider
       value={{
         activeApp,
-        setActiveApp,
-        closeActiveApp,
-        openModal,
+        ...helpers,
       }}
     >
       {children}
-      {modal && <div className="fixed inset-0 z-50">{modal}</div>}
+      {modal && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center pointer-events-none">
+          <div className="pointer-events-auto">
+            <modal.Component {...modal.props} onClose={closeModal} />
+          </div>
+        </div>
+      )}
     </MenuContext.Provider>
   );
 }

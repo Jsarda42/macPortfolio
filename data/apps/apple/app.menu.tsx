@@ -1,4 +1,4 @@
-import SystemSettingsModal from "@/components/actionMenu/SystemSettingsModal";
+import SystemSettingsModal from "@/components/desktop/systemSettings";
 import { Menu } from "@/types/Menu";
 
 export const AppleAppMenu: Menu = {
@@ -9,9 +9,7 @@ export const AppleAppMenu: Menu = {
       type: "item",
       id: "apple-settings",
       label: "System Settings…",
-      action: ({ openModal, closeActiveApp }) => {
-       openModal(SystemSettingsModal, { onClose: () => closeActiveApp() });
-      },
+      action: (h) => h.openModal(SystemSettingsModal)
     }
   ],
 };

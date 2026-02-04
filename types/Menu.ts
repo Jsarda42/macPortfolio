@@ -22,6 +22,7 @@ export type MenuItem =
   };
 
 export type Menu = {
+  action?: (helpers: MenuActionHelpers) => void;
   id: string;
   label?: string;
   icon?: "apple" | string;

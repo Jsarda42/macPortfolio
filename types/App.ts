@@ -5,4 +5,5 @@ export type App = {
   appName: string;
   appMenu: Menu;
   menus: Menu[];
+  icon?: string;
 };

@@ -24,3 +24,15 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer base {
+  @keyframes dock-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-16px); }
+  }
+
+  /* We create a utility class we can use in our TSX */
+  .animate-dock-bounce {
+    animation: dock-bounce 0.4s ease-in-out 2;
+  }
+}

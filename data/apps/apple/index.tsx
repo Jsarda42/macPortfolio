@@ -4,8 +4,8 @@ import { AppleAppMenu } from "./app.menu";
 
 
 export const AppleApp: App = {
-  id: "finder",
-  appName: "Finder",
+  id: "apple",
+  appName: "Apple",
   appMenu: AppleAppMenu,
   menus: AppleMenus,
 };
