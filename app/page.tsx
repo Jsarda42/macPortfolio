@@ -1,31 +1,23 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useMenu } from "@/context/MenuContext";
-import { useWallpaper } from "@/context/WallpapersContext";
 
-export default function Home() {
-  const { closeActiveApp } = useMenu();
-  const { currentWallpaper } = useWallpaper();
-  const [hasMounted, setHasMounted] = useState(false);
+import { TopBar } from "@/components/shell/TopBar/TopBar";
+import { Dock } from "@/components/shell/Dock/Dock";
+import { WindowHost } from "@/components/shell/windowHost/WindowHost";
+import { useOS } from "@/context/OSContext";
 
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+export default function DesktopPage() {
+// app/page.tsx
+  const { wallpaper, handleBackgroundClick } = useOS();
 
   return (
-    <main className="min-h-screen p-6 relative" onMouseDown={closeActiveApp}>
-      <div
-        className={`fixed inset-0 -z-10 bg-cover bg-center transition-opacity duration-1000
-          ${hasMounted ? "opacity-100" : "opacity-0"}`}
-        style={{
-          backgroundImage: hasMounted ? `url('${currentWallpaper}')` : "none"
-        }}
-      />
-
-      {hasMounted && (
-        <div className="relative z-10">
-        </div>
-      )}
+    <main
+      onMouseDown={() => handleBackgroundClick()} // Closes menus & unfocuses windows
+      className="relative h-screen w-screen overflow-hidden bg-black"
+      style={{ backgroundImage: `url(${wallpaper})`, backgroundSize: 'cover' }}
+    >
+      <TopBar />
+      <WindowHost />
+      <Dock />
     </main>
   );
 }

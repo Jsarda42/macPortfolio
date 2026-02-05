@@ -26,13 +26,12 @@ body {
 }
 
 @layer base {
-  @keyframes dock-bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-16px); }
+  body {
+    @apply overflow-hidden antialiased;
   }
+}
 
-  /* We create a utility class we can use in our TSX */
-  .animate-dock-bounce {
-    animation: dock-bounce 0.4s ease-in-out 2;
-  }
+.dock-container {
+  /* This prevents the dock from shifting when icons scale */
+  will-change: transform;
 }
