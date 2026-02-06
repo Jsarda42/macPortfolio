@@ -6,12 +6,12 @@ import { WindowHost } from "@/components/shell/windowHost/WindowHost";
 import { useOS } from "@/context/OSContext";
 
 export default function DesktopPage() {
-// app/page.tsx
-  const { wallpaper, handleBackgroundClick } = useOS();
+  const { wallpaper, handleBackgroundClick, closeAllMenus } = useOS();
 
   return (
     <main
-      onMouseDown={() => handleBackgroundClick()} // Closes menus & unfocuses windows
+      onMouseDown={() => handleBackgroundClick()}
+      onClick={closeAllMenus}
       className="relative h-screen w-screen overflow-hidden bg-black"
       style={{ backgroundImage: `url(${wallpaper})`, backgroundSize: 'cover' }}
     >

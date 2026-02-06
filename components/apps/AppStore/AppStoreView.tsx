@@ -1,14 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useOS } from "@/context/OSContext";
 import { ALL_APPS } from "@/data/registry";
-import { CloudDownload } from "lucide-react";
 
 export default function AppStore() {
   const { installedAppIds, loadingAppIds, installApp, openApp } = useOS();
-  
-  // Local state to simulate the % of the circle filling up
   const [progress, setProgress] = useState<{ [key: string]: number }>({});
 
   useEffect(() => {
@@ -19,7 +16,7 @@ export default function AppStore() {
           val += 2;
           setProgress((prev) => ({ ...prev, [id]: val }));
           if (val >= 100) clearInterval(interval);
-        }, 40); // Matches your 2.5s simulated delay
+        }, 40);
       }
     });
   }, [loadingAppIds]);
@@ -30,7 +27,6 @@ export default function AppStore() {
 
   return (
     <div className="flex flex-col h-full bg-[#f2f2f7] dark:bg-[#000000] text-black dark:text-white font-sans">
-      {/* Header */}
       <div className="px-8 pt-12 pb-6 border-b border-gray-200 dark:border-white/10">
         <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">
           {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
@@ -47,24 +43,22 @@ export default function AppStore() {
 
             return (
               <div key={app.id} className="flex items-start gap-4 pb-8 border-b border-gray-100 dark:border-white/5">
-                <img 
-                  src={app.icon} 
+                <img
+                  src={app.icon}
                   className="w-24 h-24 rounded-[22%] shadow-xl object-cover"
-                  alt="" 
+                  alt=""
                 />
-                
+
                 <div className="flex-1 min-w-0">
                   <h3 className="text-xl font-semibold leading-tight truncate">{app.name}</h3>
                   <p className="text-gray-500 text-sm mt-1 leading-snug">
                     Professional tools for your creative workflow.
                   </p>
-                  
+
                   <div className="mt-4 flex items-center justify-between">
-                    {/* The Interactive Button Zone */}
                     <div className="flex items-center gap-3">
                       {isLoading ? (
                         <div className="relative w-8 h-8 flex items-center justify-center">
-                          {/* SVG Progress Circle */}
                           <svg className="w-full h-full -rotate-90">
                             <circle
                               cx="16" cy="16" r="14"
@@ -87,14 +81,14 @@ export default function AppStore() {
                           <div className="absolute w-2 h-2 bg-blue-500 rounded-sm" />
                         </div>
                       ) : isInstalled ? (
-                        <button 
+                        <button
                           onClick={() => openApp(app.id)}
                           className="px-6 py-1 bg-gray-100 dark:bg-white/10 text-blue-500 rounded-full font-bold text-[13px] hover:brightness-95 transition-all"
                         >
                           OPEN
                         </button>
                       ) : (
-                        <button 
+                        <button
                           onClick={() => installApp(app.id)}
                           className="px-6 py-1 bg-gray-100 dark:bg-white/10 text-blue-500 rounded-full font-bold text-[13px] hover:brightness-95 transition-all"
                         >
@@ -102,7 +96,7 @@ export default function AppStore() {
                         </button>
                       )}
                     </div>
-                    
+
                     <span className="text-[10px] text-gray-400 font-medium">In-App Purchases</span>
                   </div>
                 </div>

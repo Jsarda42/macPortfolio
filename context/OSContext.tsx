@@ -5,9 +5,9 @@ import { AppConfig } from "@/types/system";
 import { ALL_APPS } from "@/data/registry";
 
 interface OSContextType {
-    installApp: (id: string) => void; // Added this
-    uninstallApp: (id: string) => void; // Added this
-    installedAppIds: string[]; // Added this
+    installApp: (id: string) => void;
+    uninstallApp: (id: string) => void;
+    installedAppIds: string[];
     activeApp: AppConfig | null;
     openAppIds: string[];
     setActiveApp: (app: AppConfig | null) => void;
@@ -20,7 +20,7 @@ interface OSContextType {
     closeAllMenus: () => void;
     handleBackgroundClick: () => void;
     launchingAppId: string | null;
-    loadingAppIds: string[]; // Add this
+    loadingAppIds: string[];
 }
 
 const OSContext = createContext<OSContextType | undefined>(undefined);
@@ -31,23 +31,19 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
     const [wallpaper, setWallpaper] = useState("/wallpapers/futurama.webp");
     const [minimizedAppIds, setMinimizedAppIds] = useState<string[]>([]);
     const [launchingAppId, setLaunchingAppId] = useState<string | null>(null);
-    const [installedAppIds, setInstalledAppIds] = useState<string[]>(["settings", "app-store"]);
-const [loadingAppIds, setLoadingAppIds] = useState<string[]>([]); // New state
+    const [installedAppIds, setInstalledAppIds] = useState<string[]>(["settings", "app-store", "safari-app"]);
+    const [loadingAppIds, setLoadingAppIds] = useState<string[]>([]);
 
-const installApp = (id: string) => {
+    const installApp = (id: string) => {
         if (installedAppIds.includes(id) || loadingAppIds.includes(id)) return;
-
-        // Start loading
         setLoadingAppIds((prev) => [...prev, id]);
-
-        // Simulate download delay (e.g., 2 seconds)
         setTimeout(() => {
             setInstalledAppIds((prev) => [...prev, id]);
             setLoadingAppIds((prev) => prev.filter((loadingId) => loadingId !== id));
         }, 2000);
     };
 
-    
+
 
     const uninstallApp = (id: string) => {
         setInstalledAppIds((prev) => prev.filter((appId) => appId !== id));
@@ -127,9 +123,9 @@ const installApp = (id: string) => {
             closeAllMenus,
             handleBackgroundClick,
             launchingAppId,
-            installedAppIds, // Include in value
-            installApp,    // Include in value
-            uninstallApp,  // Include in value
+            installedAppIds,
+            installApp,
+            uninstallApp,
             loadingAppIds,
         }}>
             {children}

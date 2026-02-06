@@ -48,10 +48,6 @@ export function TopBar() {
 
           {!activeApp && (
             <>
-              <button className="px-3 py-1 rounded hover:bg-black/5">File</button>
-              <button className="px-3 py-1 rounded hover:bg-black/5">Edit</button>
-              <button className="px-3 py-1 rounded hover:bg-black/5">View</button>
-              <button className="px-3 py-1 rounded hover:bg-black/5">Go</button>
             </>
           )}
         </div>

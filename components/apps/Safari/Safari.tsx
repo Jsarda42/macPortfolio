@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { ChevronLeft, ChevronRight, RotateCw, Share, Plus, Copy, X } from "lucide-react";
 
 export default function Safari() {
@@ -9,12 +9,11 @@ export default function Safari() {
 
   const favorites = [
     { name: "GitHub", url: "https://github.com/Jsarda42", icon: "GH" },
-    { name: "LinkedIn", url: "https://linkedin.com/in/juliensarda", icon: "LI" },
+    { name: "LinkedIn", url: "https://linkedin.com/in/julien-sarda", icon: "LI" },
     { name: "Mconscience", url: "https://mconscience.fr/", icon: "M" },
   ];
 
 const handleOpenPage = (url: string, name: string) => {
-  // 1. Check if the site is known to block iframes
   const isExternal = url.includes("linkedin.com") || url.includes("github.com");
 
   if (isExternal) {

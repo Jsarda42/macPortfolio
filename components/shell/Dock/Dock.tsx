@@ -68,6 +68,8 @@ export function Dock() {
                   alt={app.name}
                   width={48}
                   height={48}
+                  priority={app.isPreInstalled}
+                  loading="eager"
                   className={`rounded-xl shadow-sm transition-all ${isActive ? "brightness-110" : ""}`}
                 />
               </div>

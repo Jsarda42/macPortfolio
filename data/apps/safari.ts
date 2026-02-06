@@ -4,7 +4,7 @@ import { AppConfig } from "@/types/system";
 export const safariApp: AppConfig = {
   id: "safari-app",
   name: "Safari",
-  icon: "/icons/safari.webp",
+  icon: "/icons/safari.svg",
   windowContent: Safari,
   isPreInstalled: true,
    menu: {

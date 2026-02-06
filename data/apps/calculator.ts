@@ -9,9 +9,6 @@ export const calculatorApp: AppConfig = {
   menu: {
     label: "Calculator",
     items: [
-      { id: "about", label: "About Calculator", type: "item" },
-      { id: "sep1", label: "", type: "separator" },
-      { id: "hide", label: "Hide Calculator", type: "item" },
     ],
   },
 };

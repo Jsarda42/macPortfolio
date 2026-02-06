@@ -9,9 +9,6 @@ export const settingsApp: AppConfig = {
   menu: {
     label: "Settings",
     items: [
-      { id: "about", label: "About Settings", type: "item" },
-      { id: "sep1", label: "", type: "separator" },
-      { id: "pref", label: "Preferences", type: "item" },
     ],
   },
 };

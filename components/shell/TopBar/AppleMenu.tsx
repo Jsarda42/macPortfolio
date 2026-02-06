@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppleIcon from '@mui/icons-material/Apple';
 import { APPLE_MENU_ITEMS } from "@/data/menu/apple";
 import { useOS } from "@/context/OSContext";
 
 export function AppleMenu() {
     const [isOpen, setIsOpen] = useState(false);
-    const { openApp, setActiveApp } = useOS();
+    const { openApp } = useOS();
 
     const handleItemClick = (appId?: string) => {
         if (appId) {
@@ -15,6 +15,13 @@ export function AppleMenu() {
         }
         setIsOpen(false);
     };
+
+    useEffect(() => {
+        const handleClose = () => setIsOpen(false);
+
+        window.addEventListener("close-all-menus", handleClose);
+        return () => window.removeEventListener("close-all-menus", handleClose);
+    }, []);
 
     return (
         <div className="relative">
