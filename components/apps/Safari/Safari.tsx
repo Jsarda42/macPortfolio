@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, RotateCw, Share, Plus, Copy, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, RotateCw, Share, Plus, X } from "lucide-react";
 
 export default function Safari() {
   const [activeUrl, setActiveUrl] = useState<string | null>(null);
-  const [displayUrl, setDisplayUrl] = useState("portfolio.me");
+  const [displayUrl, setDisplayUrl] = useState("Search...");
 
   const favorites = [
     { name: "GitHub", url: "https://github.com/Jsarda42", icon: "GH" },
@@ -17,11 +17,8 @@ const handleOpenPage = (url: string, name: string) => {
   const isExternal = url.includes("linkedin.com") || url.includes("github.com");
 
   if (isExternal) {
-    // Show a quick "Opening External Link" state if you want, or just open:
     window.open(url, "_blank");
-    // We stay on the favorites page so the browser doesn't "break"
   } else {
-    // It's your project! Load it up.
     setActiveUrl(url);
     setDisplayUrl(name.toLowerCase() + ".fr");
   }
@@ -34,7 +31,6 @@ const handleOpenPage = (url: string, name: string) => {
 
   return (
     <div className="flex flex-col h-full bg-white dark:bg-[#1e1e1e] text-black dark:text-white overflow-hidden">
-      {/* Browser Toolbar */}
       <div className="flex items-center gap-4 px-4 py-2 bg-[#f1f1f1] dark:bg-[#2d2d2d] border-b border-gray-300 dark:border-white/10 z-10">
         <div className="flex gap-4 text-gray-500">
           <ChevronLeft 
@@ -61,11 +57,9 @@ const handleOpenPage = (url: string, name: string) => {
         </div>
       </div>
 
-      {/* Main Content Area */}
       <div className="flex-1 relative bg-white dark:bg-[#1e1e1e]">
         {activeUrl ? (
           <div className="w-full h-full flex flex-col">
-            {/* Disclaimer for blocked sites */}
             <div className="absolute top-2 right-2 z-20">
                 <button 
                   onClick={handleGoHome}
